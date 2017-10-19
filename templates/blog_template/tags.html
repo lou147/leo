@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block head %}
+<title>tags</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tag.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="tags">
+    {% for tag in tag_list %}
+    <div class="tag">
+        <a href="/tags/{{tag.name}}">{{ tag.name }}({{tag.articles.all() | length}})</a>
+    </div>
+    {% endfor %}
+</div>
+<div class="posts">
+    {% for article in article_list.items %}
+    <div class="post">
+        <header class="post-header">
+            <div class="post-tag">
+                <i class="fa fa-tags" ></i>
+                {% for tag in article.tags %}
+                <a href="/tags/{{tag.name}}" style="font-size: 10px">{{ tag.name }},</a>
+                {% endfor %}
+            </div>
+
+            <div class="post-title"><a href="/post/{{article.id}}">{{article.title}}</a></div>
+            <div class="post-time">{{article.create_time}}</div>
+        </header>
+        <div class="post-description">
+            <p>
+                {{article.abstract | safe}}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="pagination">
+    {% if article_list.has_prev %}
+
+        <a href="{{url_for('blog.home', page=article_list.prev_num)}}" class="paginater" style="margin-left: 5px">
+            <i class="fa fa-long-arrow-left paginater" aria-hidden="true"></i>
+            pre
+        </a>
+    {% endif %}
+    {% if article_list.has_next %}
+
+        <a href="{{ url_for('blog.home', page=article_list.next_num) }}" style="float: right;margin-right: 5px" class="paginater">
+            <i class="fa fa-long-arrow-right paginater" aria-hidden="true" style="float: right;"></i>
+            next
+        </a>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

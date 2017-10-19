@@ -1,0 +1,20 @@
+.mid_container{
+	margin-top: 20px;
+}
+
+.tags{
+	margin-bottom: 20px
+}
+
+.tag{
+	display: inline-block;
+    margin: 0 10px 10px 10px;
+    font-size: 18px;
+    color: #484848;
+}
+
+@media (min-width: 48em) {
+	.mid_container{
+	margin-top: 50px
+	}
+}

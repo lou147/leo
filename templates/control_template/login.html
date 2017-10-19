@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-lg-3">
+  <div style="text-align: center;font-size: 25px;margin-bottom: 40px;">login</div>
+  <form class="pure-form pure-form-aligned" method="POST" action="{{ url_for('control.login', next=request.endpoint)}}">
+    <fieldset>
+      {{ form.csrf_token }}
+      {{ form.hidden_tag() }}
+      <div class="pure-control-group">
+        {{ form.username.label }}
+        {{ form.username(class_="form-control") }}
+        {% if form.username.errors %}
+          {% for e in form.username.errors %}
+            <span class="pure-form-message-inline">{{ e }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="pure-control-group">
+        {{ form.password.label }}
+        {{ form.password(class_='form-control') }}
+        {% if form.password.errors %}
+          {% for e in form.password.errors %}
+            <span class="pure-form-message-inline">{{ e }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="pure-controls">
+        <label for="cb" class="pure-checkbox">
+            <input id="cb" type="checkbox"> Remember Me
+        </label>
+        <button type="submit" class="pure-button pure-button-primary">login</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

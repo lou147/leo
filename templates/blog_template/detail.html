@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block head %}
+<title>{{article_info.title}}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comment.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="detail-post" id="comment_app">
+    <div class="post-title">{{article_info.title}}</div>
+    <div class="post-time">{{article_info.create_time}}</div>
+    {% for tag in tag_list %}
+        <a href="/tags/{{tag.name}}" class="detail-tags">{{tag.name}},</a>
+    {% endfor %}
+    <p class="detail-content">
+        {{article_info.text | safe}}
+    </p>
+    <div class="next_pre">
+        <a href="/post/{{pre_article.id}}" class="pre">
+            {% if pre_article %}
+            <span><</span>
+            {% endif %}
+            {{pre_article.title}}
+        </a>
+
+        <a href="/post/{{next_article.id}}" class="next">
+            {{next_article.title}}
+            {% if next_article %}
+            <span>> </span>
+            {% endif %}
+        </a>
+    </div>
+    {% if current_user.is_super_user %}
+    <a href="/edit/{{article_info.id}}" class="pure-button  pure-button-primary">edit</a>
+    <a @click="deleteInfo" class="pure-button  pure-button-primary">delete</a>
+    {% endif %}
+    <div class="ui comments">
+      <h3 class="ui dividing header">Comments</h3>
+      <div class="comment" v-for="comment in comment_list">
+        <div class="content">
+          <a class="author">[[ comment.name ]]</a>
+          <div class="metadata">
+            <span class="date">[[ comment.create_time ]]</span>
+          </div>
+          <div class="text">
+            [[ comment.text ]]
+          </div>
+        </div>
+      </div>
+      <div class="pure-form">
+        <fieldset class="pure-group">
+            <input v-model="name" type="text" class="pure-input-1-2" placeholder="your name...">
+            <textarea v-model="comment_content" class="pure-input-1-2" placeholder="what you want say..."></textarea>
+        </fieldset>
+        <button @click="postComment" class="pure-button  pure-button-primary">添加评论</button>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<script>
+    new Vue({
+        el: '#comment_app',
+        delimiters: ['[[', ']]'],
+        data:{
+            comment_list: [],
+            name: '',
+            comment_content: ''
+        },
+        created:function(){
+          this.getComment()
+        },
+        methods:{
+            getComment:function () {
+                var self = this;
+                axios.get('http://127.0.0.1:5000/api/comment?article_id=' + '{{article_info.id}}').then(function (resp) {
+                    self.comment_list = resp.data
+                })
+            },
+            postComment:function () {
+                var self = this;
+                axios({
+                    method:'POST',
+                    url:'http://127.0.0.1:5000/api/comment',
+                    headers:{
+                        'X-CSRF-Token': '{{ csrf_token() }}'
+                    },
+                    data:{
+                        article_id: '{{article_info.id}}',
+                        name: self.name,
+                        comment_content: self.comment_content
+                    }
+                }).then(function (resp) {
+                    self.name = '';
+                    self.comment_content = '';
+                    self.getComment()
+                })
+            },
+            deleteInfo:function () {
+                var r=confirm("are you sure?");
+                if (r==true) {
+                    this.deleteArticle()
+                }
+            },
+            deleteArticle:function () {
+                axios({
+                    method:'DELETE',
+                    url:'http://127.0.0.1:5000/api/article',
+                    headers:{
+                        'X-CSRF-Token': '{{ csrf_token() }}'
+                    },
+                    data:{
+                        article_id: '{{article_info.id}}'
+                    }
+                }).then(function (resp) {
+                    window.location.href='/'
+                })
+            }
+        }
+    })
+</script>
+{% endblock %}

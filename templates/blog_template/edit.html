@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>write</title>
+{% endblock %}
+
+{% block content %}
+
+<div id="app-edit">
+    <h1>撰写文章</h1>
+    <div id="CreateBlogFormId" class="pure-form">
+        <input class="pure-input-2-3" name="title" v-model="title"  placeholder="文章标题" required />
+        <div id="editor">
+        </div>
+        <div class="pure-menu pure-menu-scrollable custom-restricted" style="height: 160px;width: 150px;border: 1px solid gray;
+    border-radius: 4px;display: inline-block">
+            <ul class="pure-menu-list">
+                <li v-for="tag in tagList" @click="chooseTag(tag)" class="pure-menu-item"><a href="#" class="pure-menu-link">[[tag.name]]</a></li>
+            </ul>
+        </div>
+
+        <div class="pure-menu pure-menu-scrollable custom-restricted" style="height: 160px;width: 150px;border: 1px solid gray;
+    border-radius: 4px;display: inline-block">
+            <ul class="pure-menu-list">
+                <li v-for="tag in chooseTagList" @click="cancelTag(tag)" class="pure-menu-item"><a href="#" class="pure-menu-link">[[tag.name]]</a></li>
+            </ul>
+        </div>
+        <input v-model="newTag"><button @click="addNewTag" class="pure-button">add tag</button>
+        <input v-model="is_active" type="checkbox">is_active
+        <input v-model="is_top" type="checkbox">is_top
+        {% if article_info.title %}
+            <a style="margin-top: 20px" class="pure-button pure-button-primary" id="post_article" @click=updateArticle>修改博客</a>
+        {% else %}
+            <a style="margin-top: 20px" class="pure-button pure-button-primary" id="post_article" @click=postArticle>新建博客</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ url_for('static', filename='wangEditor/js/wangEditor.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<script type="text/javascript">
+
+</script>
+<script>
+var E = window.wangEditor;
+var editor = new E('#editor');
+new Vue({
+    el:'#app-edit',
+    delimiters: ['[[', ']]'],
+    data:{
+        tagList:[],
+        chooseTagList:[],
+        title:"{{article_info.title}}",
+        is_active:'',
+        is_top:'',
+        newTag:''
+    },
+    mounted:function(){
+        this.genEditor();
+        this.getTag()
+    },
+    methods:{
+        genEditor:function () {
+            editor.customConfig.codeDefaultLang = 'python';
+            editor.customConfig.uploadImgHeaders = {
+                'Accept': 'text/x-json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            };
+            editor.customConfig.uploadImgServer = '/upload_img';
+            editor.customConfig.uploadFileName = 'blog_img';
+            editor.customConfig.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0;
+            editor.customConfig.uploadImgHooks = {
+                before: function (xhr, editor, files) {
+                    // 图片上传之前触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
+
+                    // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                    // return {
+                    //     prevent: true,
+                    //     msg: '放弃上传'
+                    // }
+                },
+                success: function (xhr, editor, result) {
+                    // 图片上传并返回结果，图片插入成功之后触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                },
+                fail: function (xhr, editor, result) {
+                    // 图片上传并返回结果，但图片插入错误时触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                },
+                error: function (xhr, editor) {
+                    // 图片上传出错时触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                },
+                timeout: function (xhr, editor) {
+                    // 图片上传超时时触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                },
+                customInsert: function (insertImg, result, editor) {
+                    var url = result.url;
+                    insertImg(url)
+                }
+            };
+            editor.create();
+            editor.txt.html('{{article_info.text | safe}}');
+        },
+        getTag:function () {
+            var self = this;
+            axios.get('/api/tag').then(function (resp) {
+                self.tagList = resp.data
+            });
+            if ("{{article_info.id}}"){
+                axios.get('/api/tag?article_id=' + '{{article_info.id}}').then(function (resp) {
+                    self.chooseTagList = resp.data
+                });
+            }
+        },
+        chooseTag:function (tag) {
+            var self = this;
+            var inarray = self.chooseTagList.indexOf(tag);
+            if (inarray == -1){
+                self.chooseTagList.push(tag)
+            }
+        },
+        cancelTag:function(tag){
+            var self = this;
+            var tag_index = self.chooseTagList.indexOf(tag);
+            if (tag_index > -1){
+                self.chooseTagList.splice(tag_index, 1)
+            }
+        },
+        postArticle:function () {
+            var self = this;
+            axios({
+                method:'post',
+                url:'/api/article',
+                headers:{
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                data:{
+                    'title': self.title,
+                    'content': editor.txt.html(),
+                    'is_active': self.is_active,
+                    'is_top': self.is_top,
+                    'user_id':'{{current_user.id}}',
+                    'tag_list': self.chooseTagList
+                }
+            }).then(function (resp) {
+                window.location.href="/post/" + resp.data.article_id;
+            })
+        },
+        updateArticle:function () {
+            var self = this;
+            axios({
+                method:'put',
+                url:'/api/article',
+                headers:{
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                data:{
+                    'id': '{{article_info.id}}',
+                    'title': self.title,
+                    'content': editor.txt.html(),
+                    'is_active': self.is_active,
+                    'is_top': self.is_top,
+                    'user_id':'{{current_user.id}}',
+                    'tag_list': self.chooseTagList
+                }
+            }).then(function (resp) {
+                window.location.href="/post/" + '{{article_info.id}}';
+            })
+        },
+        addNewTag:function () {
+            var self = this;
+            axios({
+                method:'post',
+                url:'/api/tag',
+                headers:{
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                data:{
+                    'name': self.newTag
+                }
+            }).then(function (resp) {
+                axios.get('/api/tag').then(function (resp) {
+                    self.tagList = resp.data
+                });
+            })
+        }
+    }
+})
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,273 @@
+html{
+    height: 100%
+}
+
+body {
+    height: 100%
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(76, 76, 76);
+}
+a:hover,
+a:focus {
+    text-decoration: none;
+}
+
+h3 {
+    font-weight: 100;
+}
+
+p{
+    margin: 10px 0 0 0
+}
+
+
+/* LAYOUT CSS */
+.mid_container {
+    max-width: 800px;
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.header-img {
+    width: 180px;
+    border-radius: 100px;
+    display: inline;
+}
+.pure-img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+#layout {
+    padding: 0;
+    height: 100%
+}
+
+.header_page {
+    text-align: center;
+    top: auto;
+    margin: 3em auto;
+}
+
+.sidebar {
+    background: #38414a;
+    color: #fff;
+}
+
+.nav-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-item {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+
+.custom-restricted-width{
+    text-align: center;
+}
+
+.content-subhead {
+    text-transform: uppercase;
+    color: #aaa;
+    border-bottom: 1px solid #eee;
+    padding: 0.4em 0;
+    font-size: 80%;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.posts {
+    margin-top: 0;
+    min-height: 100%;
+}
+.post {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #efefef;
+    padding-top: 20px;
+}
+.post-title {
+    font-size: 1.8em;
+    color: #222;
+    margin-bottom: 10px;
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+}
+.post-time {
+    color: #737373;
+    font-size: 11px
+}
+
+.post-tag {
+    font-size: 9px;
+    color: #737373;
+    float: right;
+    margin-top: 15px
+}
+.post-description {
+    font-family: Georgia, "Cambria", serif;
+    color: #444;
+    line-height: 1.8em;
+}
+
+    .post-category-design {
+        background: #5aba59;
+    }
+    .post-category-pure {
+        background: #4d85d1;
+    }
+    .post-category-yui {
+        background: #8156a7;
+    }
+    .post-category-js {
+        background: #df2d4f;
+    }
+
+.post-images {
+    margin: 1em 0;
+}
+
+.pagination{
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+.paginater{
+    color: #737373
+}
+.footer {
+    padding: 1em 0;
+    color: #737373;
+    font-size: 10px;
+    position: relative;
+    bottom: 0px;
+}
+
+.footer .pure-menu a:hover,
+.footer .pure-menu a:focus {
+    background: none;
+}
+
+@media (min-width: 48em) {
+    .posts {
+        margin-top: 20px;
+    }
+    .mid_container {
+        position: relative;
+        height: 100%
+    }
+    .content_page {
+        padding: 2em 3em 0;
+        margin-left: 25%;
+        height: 100%;
+    }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+    }
+    .footer {
+        text-align: right;
+    }
+}
+
+@media (max-width: 48em) {
+    .pure-menu-list{
+        width: 200px;
+        margin: auto;
+    }
+}
+
+.about{
+    font-size: 30px
+}
+
+.search.pure-form{
+    position: relative;
+    width: 100%;
+    margin: auto;
+    max-width: 120px;
+}
+
+.fa.fa-search{
+    position: absolute;
+    z-index: 5;
+    top: 5px;
+    left: 6px;
+    color: #292929;
+}
+
+#search-item{
+    margin: auto;
+}
+.search.pure-input-rounded{
+    padding: 0 25px 0 25px;
+    width: 100%;
+    height: 30px;
+    background-color: #d0d0d0;
+    color: black;
+}
+
+.search.pure-form :focus,
+.search.pure-form :visited {
+    width: 160px;
+    transition:width 0.5s;
+    -moz-transition:width 0.5s; /* Firefox 4 */
+    -webkit-transition:width 0.5s; /* Safari and Chrome */
+    -o-transition:width 0.5s; /* Opera */
+}
+
+.pure-menu-item.left-menu{
+    max-width: 100px;
+    margin: auto;
+}
+
+
+@font-face {font-family: "iconfont";
+  src: url('font-awesome/fonts/iconfont.eot?t=1502611157859'); /* IE9*/
+  src: url('font-awesome/fonts/iconfont.eot?t=1502611157859#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('font-awesome/fonts/iconfont.woff?t=1502611157859') format('woff'), /* chrome, firefox */
+  url('font-awesome/fonts/iconfont.ttf?t=1502611157859') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('font-awesome/fonts/iconfont.svg?t=1502611157859#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:24px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-jianshu:before { content: "\e675"; }
+
+#icon-href{
+    color: rgb(169, 169, 169);
+    margin-right: 3px
+}
+#icon-href:hover{
+    color: rgb(224, 223, 223);
+}
+
+
+#user-op{
+    display: none;
+}
+
+#username:hover  #user-op{
+    display: inline-block;
+}
+
+.w-e-text-container{
+    height: 600px !important;
+}
+

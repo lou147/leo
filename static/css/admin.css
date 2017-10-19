@@ -1,0 +1,149 @@
+a {
+    text-decoration: none;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.8);
+}
+
+h2{
+  font-weight: normal;
+  font-size:18px;
+  text-align:center;
+}
+
+.desc{
+  text-align:center;
+  font-size:12px;
+  color: #AFAFAF;
+}
+
+#holder{
+    position: absolute;
+    background: white;
+    padding: 30px 10px 10px 10px;
+    margin: 60px auto;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 30%;
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.button {
+    position: relative;
+    margin: 20px 0;
+    overflow: hidden;
+    width: 250px;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+
+.button .btnText {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #FFF;
+	background-color: #FFA500;
+	-webkit-transition:transform 400ms ease, width 400ms ease, border-radius 400ms ease;
+	-moz-transition:transform 400ms ease, width 400ms ease, border-radius 400ms ease;
+	-o-transition:transform 400ms ease, width 400ms ease, border-radius 400ms ease;
+	transition:transform 400ms ease, width 400ms ease, border-radius 400ms ease;
+	pointer-events:none;
+	border-radius: 5px;
+}
+
+.button .btnTwo {
+	position: absolute;
+	z-index: 0;
+	width: 60px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	left: -60px;
+	top: 0;
+	color: #fff;
+	background-color: #26A69A;
+	-webkit-transition:transform 400ms ease;
+	-moz-transition:transform 400ms ease;
+	-o-transition:transform 400ms ease;
+	transition:transform 400ms ease;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+
+.button:hover .btnText {
+	-webkit-transform:translate(60px,0);
+	-ms-transform:translate(60px,0);
+	-o-transform:translate(60px,0);
+	transform:translate(60px,0);
+	width: 190px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.button:hover .btnTwo{
+	-webkit-transform:translate(60px,0);
+	-ms-transform:translate(60px,0);
+	-o-transform:translate(60px,0);
+	transform:translate(60px,0);
+}
+
+.button:hover .btnTwo i {
+	-webkit-transition:transform 800ms ease;
+	-moz-transition:transform 800ms ease;
+	-o-transition:transform 800ms ease;
+	transition:transform 800ms ease;
+	transform:rotate(360deg);
+	-moz-transform:rotate(360deg);
+	-webkit-transform:rotate(360deg);
+	-o-transform:rotate(360deg);
+}
+
+.header.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #2B3643;
+    color: white;
+    padding-top: 10px;
+}
+
+.admin.home{
+    margin-left: 50px;
+}
+
+.user.info{
+    float: right;
+    margin-right: 50px;
+}
+
+.left-menu{
+    position: fixed;
+    margin-top: 50px;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #364150;
+}
+
+.main.menu{
+	font-size: 23px;
+    color: white;
+    width: 200px;
+    height: 37px;
+    padding-left: 30px;
+}

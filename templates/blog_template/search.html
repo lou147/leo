@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>search</title>
+{% endblock %}
+
+{% block content %}
+    <div class="tags">
+        {% for tag in tag_list %}
+        <div class="tag">
+            <a href="/tags/{{tag.name}}">{{ tag.name }}</a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="posts">
+        {% for article in article_list %}
+        <div class="post">
+            <header class="post-header">
+                <div class="post-tag">
+                    <i class="fa fa-tags" ></i>
+                    {% for tag in article.tags %}
+                    <a href="/tags/{{tag.name}}" style="font-size: 10px">{{ tag.name }},</a>
+                    {% endfor %}
+                </div>
+
+                <div class="post-title"><a href="/post/{{article.id}}">
+                {{article.title}}</a></div>
+                <div class="post-time">{{article.create_time}}</div>
+            </header>
+            <div class="post-description">
+                <p>
+                    {{article.abstract | safe}}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="footer">
+    <hr>
+        Copyright © 2017 Yanqi Lou Design
+    </div>
+{% endblock %}

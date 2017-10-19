@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    {% block head %}
+
+    {% endblock %}
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}">
+
+</head>
+<body>
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4 left_content">
+        <div class="header_page">
+            <img class="pure-img header-img" src="{{ url_for('static', filename='img/avatar.png') }}">
+            <div class="pure-menu custom-restricted-width">
+                <span class="pure-menu-heading">Lou yanqi</span>
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item left-menu"><a href="/" class="pure-menu-link">Blog</a></li>
+                    <li class="pure-menu-item left-menu"><a href="/tags" class="pure-menu-link">Tags</a></li>
+                    <li class="pure-menu-item left-menu"><a href="/archives" class="pure-menu-link">Archives</a></li>
+                    <li class="pure-menu-item left-menu"><a href="/about" class="pure-menu-link">About</a></li>
+                    <li class="pure-menu-item" id="search-item" style="margin-top: 10px">
+                        <form class="search pure-form" action="/search">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <input name="text" class="search pure-input-rounded" style="padding-left: 25px" required>
+                        </form>
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pure-menu pure-menu-horizontal pure-menu-scrollable" id="mycon">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item">
+                        <a id="icon-href" href="https://github.com/lou147"><i id="mytag" class="fa fa-github fa-lg" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a id="icon-href" href="http://weibo.com/u/5180092490?refer_flag=1001030101_"><i id="mytag" class="fa fa-weibo fa-lg" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a id="icon-href" href="http://www.jianshu.com/u/c4adda69f8eb"><i id="mytag" class="iconfont icon-jianshu" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a id="icon-href" href="mailto:778617402@qq.com"><i id="mytag" class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content_page pure-u-1 pure-u-md-3-4 mid_content" style="padding: 0 20px 0 20px;">
+        {% if current_user.is_super_user %}
+            <div id="username" class="pure-menu custom-restricted-width" style="position: absolute;top: 0;right: 10px;z-index: 1">
+                <span class="pure-menu-heading">{{current_user.username}}</span>
+                <ul id="user-op" class="pure-menu-list">
+                    <li class="pure-menu-item left-menu"><a href="/admin" class="pure-menu-link">Admin</a></li>
+                    <li class="pure-menu-item left-menu"><a href="/edit" class="pure-menu-link">Write</a></li>
+                    <li class="pure-menu-item left-menu"><a href="/logout" class="pure-menu-link">logout</a></li>
+                </ul>
+            </div>
+        {% else %}
+            <div id="login-user" class="pure-menu custom-restricted-width" style="position: absolute;top: 0;right: 10px;z-index: 1">
+                <a href="/login" class="pure-menu-heading">login</a>
+            </div>
+        {% endif %}
+        <div class="mid_container" style="word-wrap:break-word">
+            {% block content %}
+            {% endblock %}
+            <div class="footer">
+            <hr>
+                Copyright © 2017 Yanqi Lou Design
+            </div>
+        </div>
+    </div>
+</div>
+{% block script %}
+
+{% endblock %}
+</body>
+</html>

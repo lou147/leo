@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Archives</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/archives.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="articles">
+{% for archives in archives_list %}
+    <div class="article">
+        <div class="cir"></div>
+        <div class="article-info">
+            <span class="year">{{ archives.month }}</span>
+        </div>
+        {% for article in archives.article_list %}
+            <div class="cir"></div>
+            <div class="article-info">
+                <span class="archive-time">{{ article.create_time }}</span>
+                <span class="archive-title"><a href="/post/{{ article.id }}">{{ article.title }}</a></span>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
