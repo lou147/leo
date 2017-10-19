@@ -76,7 +76,13 @@
         methods:{
             getComment:function () {
                 var self = this;
-                axios.get('http://127.0.0.1:5000/api/comment?article_id=' + '{{article_info.id}}').then(function (resp) {
+                axios({
+                    method: 'GET',
+                    url:'http://127.0.0.1:5000/api/comment?article_id=' + '{{article_info.id}}',
+                    headers:{
+                        "Access-Control-Allow-Origin":"*"
+                    }
+                }).then(function (resp) {
                     self.comment_list = resp.data
                 })
             },
@@ -86,7 +92,8 @@
                     method:'POST',
                     url:'http://127.0.0.1:5000/api/comment',
                     headers:{
-                        'X-CSRF-Token': '{{ csrf_token() }}'
+                        'X-CSRF-Token': '{{ csrf_token() }}',
+                        "Access-Control-Allow-Origin":"*"
                     },
                     data:{
                         article_id: '{{article_info.id}}',
@@ -110,7 +117,8 @@
                     method:'DELETE',
                     url:'http://127.0.0.1:5000/api/article',
                     headers:{
-                        'X-CSRF-Token': '{{ csrf_token() }}'
+                        'X-CSRF-Token': '{{ csrf_token() }}',
+                        "Access-Control-Allow-Origin":"*"
                     },
                     data:{
                         article_id: '{{article_info.id}}'
