@@ -2862,7 +2862,7 @@ var Watcher = function Watcher (
       "development" !== 'production' && warn(
         "Failed watching path: \"" + expOrFn + "\" " +
         'Watcher only accepts simple dot-delimited paths. ' +
-        'For full control, use a function instead.',
+        'For full manage, use a function instead.',
         vm
       );
     }
@@ -7617,7 +7617,7 @@ var Transition = {
     var oldChild = getRealChild(oldRawChild);
 
     // mark v-show
-    // so that the transition module can hand over the control to the directive
+    // so that the transition module can hand over the manage to the directive
     if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
       child.data.show = true;
     }

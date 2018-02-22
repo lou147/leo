@@ -298,7 +298,7 @@ if(!waiting){waiting=true;nextTick(flushSchedulerQueue);}}}
 var uid$2=0;var Watcher=function Watcher(vm,expOrFn,cb,options){this.vm=vm;vm._watchers.push(this);if(options){this.deep=!!options.deep;this.user=!!options.user;this.lazy=!!options.lazy;this.sync=!!options.sync;}else{this.deep=this.user=this.lazy=this.sync=false;}
 this.cb=cb;this.id=++uid$2;this.active=true;this.dirty=this.lazy;this.deps=[];this.newDeps=[];this.depIds=new _Set();this.newDepIds=new _Set();this.expression=expOrFn.toString();if(typeof expOrFn==='function'){this.getter=expOrFn;}else{this.getter=parsePath(expOrFn);if(!this.getter){this.getter=function(){};"development"!=='production'&&warn("Failed watching path: \""+expOrFn+"\" "+
 'Watcher only accepts simple dot-delimited paths. '+
-'For full control, use a function instead.',vm);}}
+'For full manage, use a function instead.',vm);}}
 this.value=this.lazy?undefined:this.get();};Watcher.prototype.get=function get(){pushTarget(this);var value;var vm=this.vm;try{value=this.getter.call(vm,vm);}catch(e){if(this.user){handleError(e,vm,("getter for watcher \""+(this.expression)+"\""));}else{throw e}}finally{if(this.deep){traverse(value);}
 popTarget();this.cleanupDeps();}
 return value};Watcher.prototype.addDep=function addDep(dep){var id=dep.id;if(!this.newDepIds.has(id)){this.newDepIds.add(id);this.newDeps.push(dep);if(!this.depIds.has(id)){dep.addSub(this);}}};Watcher.prototype.cleanupDeps=function cleanupDeps(){var this$1=this;var i=this.deps.length;while(i--){var dep=this$1.deps[i];if(!this$1.newDepIds.has(dep.id)){dep.removeSub(this$1);}}

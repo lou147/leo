@@ -1,24 +1,47 @@
-from flask_sqlalchemy import SQLAlchemy
+from ext import bcrypt
 from datetime import datetime
-from extensions import bcrypt
 from flask_login.mixins import AnonymousUserMixin
+from sqlalchemy import func
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+Column = db.Column
+String = db.String
+Boolean = db.Boolean
+DateTime = db.DateTime
+Integer = db.Integer
+relationship = db.relationship
+ForeignKey = db.ForeignKey
+Text = db.Text
 
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(255))
-    password = db.Column(db.String(255))
-    create_time = db.Column(db.DateTime, default=datetime.now())
-    is_active = db.Column(db.Boolean, default=True, index=True)
-    is_super_user = db.Column(db.Boolean, default=False, index=True)
-    articles = db.relationship('Article', backref='user', lazy='dynamic')
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(255), unique=True)
+    password = Column(String(255))
+    nick_name = Column(String(255), unique=True)
+    avatar_path = Column(String(255), nullable=True)
+    create_time = Column(DateTime, default=datetime.now())
+    is_active = Column(Boolean, default=True, index=True)
+    is_super_user = Column(Boolean, default=False, index=True)
+    articles = relationship('Article', backref='user', lazy='dynamic')
 
     def __init__(self, username, password):
         self.username = username
         self.password = password
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'password': self.password,
+            'nick_name': self.nick_name,
+            'avatar_path': self.avatar_path,
+            'create_time': self.create_time,
+            'is_active': self.is_active,
+            'is_super_user': self.is_super_user
+        }
 
     def __repr__(self):
         return "<Model User `{}`>".format(self.username)
@@ -47,24 +70,24 @@ class User(db.Model):
 
 articles_tags = db.Table(
     'articles_tags',
-    db.Column('article_id', db.Integer, db.ForeignKey('articles.id')),
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'))
+    Column('article_id', Integer, ForeignKey('articles.id')),
+    Column('tag_id', Integer, ForeignKey('tags.id'))
 )
 
 
 class Article(db.Model):
     __tablename__ = 'articles'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(255))
-    text = db.Column(db.Text())
-    abstract = db.Column(db.Text())
-    is_active = db.Column(db.Boolean, default=True, index=True)
-    is_top = db.Column(db.Boolean, default=False, index=True)
-    create_time = db.Column(db.DateTime, default=datetime.now(), index=True)
-    edit_time = db.Column(db.DateTime, default=datetime.now(), index=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
-    comments = db.relationship('Comment', backref='articles', lazy='dynamic')
-    tags = db.relationship('Tag', secondary=articles_tags, backref=db.backref('articles', lazy='dynamic'))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(255))
+    text = Column(Text())
+    abstract = Column(Text())
+    is_active = Column(Boolean, default=True, index=True)
+    is_top = Column(Boolean, default=False, index=True)
+    create_time = Column(DateTime, default=datetime.now(), index=True)
+    update_time = Column(DateTime, default=datetime.now(), index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
+    comments = relationship('Comment', backref='articles', lazy='dynamic')
+    tags = relationship('Tag', secondary=articles_tags, backref=db.backref('articles', lazy='dynamic'))
 
     def __init__(self, title, text, abstract, is_active, is_top, user_id):
         self.title = title
@@ -72,6 +95,11 @@ class Article(db.Model):
         self.abstract = abstract
         self.is_active = is_active
         self.is_top = is_top
+
+    def count_star(self):
+        count_query = (self.statement.with_only_columns([func.count()])
+                       .order_by(None))
+        return self.session.execute(count_query).scalar()
 
     def __repr__(self):
         return "<Model Post `{}`>".format(self.title)
@@ -85,7 +113,7 @@ class Article(db.Model):
             'is_active': self.is_active,
             'is_top': self.is_top,
             'create_time': self.create_time,
-            'edit_time': self.edit_time,
+            'update_time': self.update_time,
             'user_id': self.user_id,
             'tags': self.tags
         }
@@ -93,10 +121,10 @@ class Article(db.Model):
 
 class Tag(db.Model):
     __tablename__ = 'tags'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(255))
-    create_time = db.Column(db.DateTime, default=datetime.now())
-    edit_time = db.Column(db.DateTime, default=datetime.now())
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), unique=True)
+    create_time = Column(DateTime, default=datetime.now())
+    edit_time = Column(DateTime, onupdate=datetime.now())
 
     def __init__(self, name):
         self.name = name
@@ -114,13 +142,13 @@ class Tag(db.Model):
 
 class Comment(db.Model):
     __tablename__ = 'comments'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(255))
-    people_ip = db.Column(db.String(255))
-    text = db.Column(db.Text())
-    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'), index=True)
-    create_time = db.Column(db.DateTime, default=datetime.now(), index=True)
-    parent_comment = db.Column(db.Integer, db.ForeignKey('comments.id'), nullable=True, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255))
+    people_ip = Column(String(255))
+    text = Column(Text())
+    article_id = Column(Integer, ForeignKey('articles.id'), index=True)
+    create_time = Column(DateTime, default=datetime.now(), index=True)
+    parent_comment = Column(db.Integer, ForeignKey('comments.id'), nullable=True, index=True)
 
     def __init__(self, name, text, article_id):
         self.name = name

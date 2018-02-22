@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-<title>Lou's blog</title>
+<title>Alchemy</title>
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
     <div class="post">
         <header class="post-header">
             <div class="post-tag">
-                <i class="fa fa-tags" ></i>
+                <img src="{{ url_for('static', filename='icon/tags.png')}}" style="width: 15px;">
                 {% for tag in article.tags %}
                 <a href="/tags/{{tag.name}}" style="font-size: 10px">{{ tag.name }},</a>
                 {% endfor %}
@@ -17,32 +17,53 @@
 
             <div class="post-title"><a href="/post/{{article.id}}">
             {{article.title}}</a></div>
-            <div class="post-time">{{article.create_time}}</div>
+            <div class="post-time">{{article.create_time | time_human}}</div>
         </header>
         <div class="post-description">
             <p>
-                {{article.abstract | safe}}
+                {{article.abstract | html_to_text}}...
             </p>
         </div>
     </div>
     {% endfor %}
 
-    <div class="pagination">
+
+    <ul class="pagination">
     {% if article_list.has_prev %}
-
-        <a href="{{url_for('blog.home', page=article_list.prev_num)}}" class="paginater" style="margin-left: 5px">
-            <i class="fa fa-long-arrow-left paginater" aria-hidden="true"></i>
-            pre
-        </a>
+        <li class="page-item">
+            <a href="{{url_for('blog.home', page=article_list.prev_num)}}" class="paginater" style="margin-left: 5px">
+                <i class="fa fa-long-arrow-left paginater" aria-hidden="true"></i>
+                pre
+            </a>
+        </li>
     {% endif %}
+
+    {% for p in article_list.iter_pages() %}
+        {% if p %}
+            {% if p == article_list.page %}
+            <li class="page-item active">
+                <a href="#" style="background: #444444">{{ p }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a href="{{ url_for('blog.home', page=p) }}">{{ p }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+        <li class="disabled"><a href="#">&hellip;</a></li>
+        {% endif %}
+    {% endfor %}
+
+
     {% if article_list.has_next %}
-
-        <a href="{{ url_for('blog.home', page=article_list.next_num) }}" style="float: right;margin-right: 5px" class="paginater">
-            <i class="fa fa-long-arrow-right paginater" aria-hidden="true" style="float: right;"></i>
-            next
-        </a>
+        <li class="page-item">
+            <a href="{{ url_for('blog.home', page=article_list.next_num) }}" style="float: right;margin-right: 5px" class="paginater">
+                <i class="fa fa-long-arrow-right paginater" aria-hidden="true" style="float: right;"></i>
+                next
+            </a>
+        </li>
     {% endif %}
-    </div>
+    </ul>
 </div>
 {% endblock %}
 

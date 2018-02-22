@@ -3,7 +3,9 @@ html{
 }
 
 body {
-    height: 100%
+    height: 100%;
+    margin: 0;
+    background: #f7f5f5
 }
 * {
     -webkit-box-sizing: border-box;
@@ -13,11 +15,6 @@ body {
 
 a {
     text-decoration: none;
-    color: rgb(76, 76, 76);
-}
-a:hover,
-a:focus {
-    text-decoration: none;
 }
 
 h3 {
@@ -25,16 +22,28 @@ h3 {
 }
 
 p{
-    margin: 10px 0 0 0
+    font-size: 15px;
+}
+img{
+    max-width: 690px !important;
+}
+ul{
+    padding: 0;
+}
+li{
+    list-style:none
 }
 
+input:focus,
+input:hover{
+    outline: none;
+}
 
 /* LAYOUT CSS */
 .mid_container {
-    max-width: 800px;
-    height: 100%;
-    position: relative;
-    width: 100%;
+    max-width: 85%;
+    padding-top: 50px;
+    min-height: 90%;
 }
 
 .header-img {
@@ -55,11 +64,11 @@ p{
 .header_page {
     text-align: center;
     top: auto;
-    margin: 3em auto;
+    margin: 0 auto;
 }
 
 .sidebar {
-    background: #38414a;
+    background: #232629;
     color: #fff;
 }
 
@@ -90,22 +99,20 @@ p{
 
 .posts {
     margin-top: 0;
-    min-height: 100%;
 }
 .post {
-    padding-bottom: 20px;
     border-bottom: 1px solid #efefef;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 .post-title {
-    font-size: 1.8em;
+    font-size: 24px;
     color: #222;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }
 .post-time {
     color: #737373;
-    font-size: 11px
+    font-size: 13px
 }
 
 .post-tag {
@@ -115,7 +122,6 @@ p{
     margin-top: 15px
 }
 .post-description {
-    font-family: Georgia, "Cambria", serif;
     color: #444;
     line-height: 1.8em;
 }
@@ -137,33 +143,18 @@ p{
     margin: 1em 0;
 }
 
-.pagination{
-    padding-top: 20px;
-    padding-bottom: 50px;
-}
-.paginater{
-    color: #737373
-}
 .footer {
     padding: 1em 0;
     color: #737373;
     font-size: 10px;
     position: relative;
-    bottom: 0px;
+    bottom: 0;
 }
 
-.footer .pure-menu a:hover,
-.footer .pure-menu a:focus {
-    background: none;
-}
 
-@media (min-width: 48em) {
+@media (min-width: 700px) {
     .posts {
-        margin-top: 20px;
-    }
-    .mid_container {
-        position: relative;
-        height: 100%
+        margin-top: 0;
     }
     .content_page {
         padding: 2em 3em 0;
@@ -174,16 +165,14 @@ p{
         position: fixed;
         top: 0;
         bottom: 0;
+        width: 23%;
+        min-width: 183px;
     }
     .footer {
         text-align: right;
     }
-}
-
-@media (max-width: 48em) {
-    .pure-menu-list{
-        width: 200px;
-        margin: auto;
+    .header_page{
+        margin: 3em auto;
     }
 }
 
@@ -191,7 +180,7 @@ p{
     font-size: 30px
 }
 
-.search.pure-form{
+.search{
     position: relative;
     width: 100%;
     margin: auto;
@@ -217,48 +206,6 @@ p{
     color: black;
 }
 
-.search.pure-form :focus,
-.search.pure-form :visited {
-    width: 160px;
-    transition:width 0.5s;
-    -moz-transition:width 0.5s; /* Firefox 4 */
-    -webkit-transition:width 0.5s; /* Safari and Chrome */
-    -o-transition:width 0.5s; /* Opera */
-}
-
-.pure-menu-item.left-menu{
-    max-width: 100px;
-    margin: auto;
-}
-
-
-@font-face {font-family: "iconfont";
-  src: url('font-awesome/fonts/iconfont.eot?t=1502611157859'); /* IE9*/
-  src: url('font-awesome/fonts/iconfont.eot?t=1502611157859#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('font-awesome/fonts/iconfont.woff?t=1502611157859') format('woff'), /* chrome, firefox */
-  url('font-awesome/fonts/iconfont.ttf?t=1502611157859') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('font-awesome/fonts/iconfont.svg?t=1502611157859#iconfont') format('svg'); /* iOS 4.1- */
-}
-
-.iconfont {
-  font-family:"iconfont" !important;
-  font-size:24px;
-  font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-jianshu:before { content: "\e675"; }
-
-#icon-href{
-    color: rgb(169, 169, 169);
-    margin-right: 3px
-}
-#icon-href:hover{
-    color: rgb(224, 223, 223);
-}
-
-
 #user-op{
     display: none;
 }
@@ -271,3 +218,11 @@ p{
     height: 600px !important;
 }
 
+.sidebar_icon{
+    width: 18px;
+}
+
+.icon_li{
+    display: inline-block;
+    margin-left: 5px;
+}

@@ -2,84 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     {% block head %}
 
     {% endblock %}
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/spectre.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/spectre-exp.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/spectre-icons.min.css') }}">
+    {% assets "main_css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
 </head>
 <body>
-<div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4 left_content">
+<div id="layout">
+    <div class="sidebar  left_content">
         <div class="header_page">
-            <img class="pure-img header-img" src="{{ url_for('static', filename='img/avatar.png') }}">
-            <div class="pure-menu custom-restricted-width">
-                <span class="pure-menu-heading">Lou yanqi</span>
-                <ul class="pure-menu-list">
-                    <li class="pure-menu-item left-menu"><a href="/" class="pure-menu-link">Blog</a></li>
-                    <li class="pure-menu-item left-menu"><a href="/tags" class="pure-menu-link">Tags</a></li>
-                    <li class="pure-menu-item left-menu"><a href="/archives" class="pure-menu-link">Archives</a></li>
-                    <li class="pure-menu-item left-menu"><a href="/about" class="pure-menu-link">About</a></li>
-                    <li class="pure-menu-item" id="search-item" style="margin-top: 10px">
-                        <form class="search pure-form" action="/search">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                            <input name="text" class="search pure-input-rounded" style="padding-left: 25px" required>
+            <img class=" header-img" src="{{ url_for('static', filename='img/1.jpg') }}">
+            <div class=" custom-restricted-width">
+{#                <span >Alchemy</span>#}
+                <ul class="nav">
+                    <li class="nav-item"><a href="/" >Home</a></li>
+                    <li class="nav-item"><a href="/tags" >Tags</a></li>
+                    <li class="nav-item"><a href="/archives" >Archives</a></li>
+                    <li class="nav-item"><a href="/archives" >Projects</a></li>
+                    <li class="nav-item"><a href="/about" >About</a></li>
+                    <li class="nav-item" id="search-item" style="margin-top: 10px">
+                        <form class="has-icon-right " action="/search" style="width: 118px">
+                            <input style="height: 29px;border-radius: 20px;" name="text" class="form-input" required>
+                            <img src="{{ url_for('static', filename='icon/search.png') }}" class="form-icon icon icon-check">
                         </form>
-
                     </li>
                 </ul>
             </div>
 
-            <div class="pure-menu pure-menu-horizontal pure-menu-scrollable" id="mycon">
-                <ul class="pure-menu-list">
-                    <li class="pure-menu-item">
-                        <a id="icon-href" href="https://github.com/lou147"><i id="mytag" class="fa fa-github fa-lg" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="pure-menu-item">
-                        <a id="icon-href" href="http://weibo.com/u/5180092490?refer_flag=1001030101_"><i id="mytag" class="fa fa-weibo fa-lg" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="pure-menu-item">
-                        <a id="icon-href" href="http://www.jianshu.com/u/c4adda69f8eb"><i id="mytag" class="iconfont icon-jianshu" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="pure-menu-item">
-                        <a id="icon-href" href="mailto:778617402@qq.com"><i id="mytag" class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
-                    </li>
-                </ul>
-            </div>
+            <ul >
+                <li class="icon_li"><a id="icon-href" href="https://github.com/lou147"><img class="sidebar_icon" src="{{ url_for('static', filename='icon/github.png') }}" alt=""></a></li>
+                <li class="icon_li"><a id="icon-href" href="http://weibo.com/u/5180092490?refer_flag=1001030101_"><img class="sidebar_icon" src="{{ url_for('static', filename='icon/weibo.png') }}" alt=""></a></li>
+                <li class="icon_li"><a id="icon-href" href="http://www.jianshu.com/u/c4adda69f8eb"><img class="sidebar_icon" src="{{ url_for('static', filename='icon/jianshu.png') }}" alt=""></a></li>
+                <li class="icon_li"><a id="icon-href" href="mailto:778617402@qq.com"><img class="sidebar_icon" src="{{ url_for('static', filename='icon/email.png') }}" alt=""></a></li>
+            </ul>
+
         </div>
     </div>
 
-    <div class="content_page pure-u-1 pure-u-md-3-4 mid_content" style="padding: 0 20px 0 20px;">
-        {% if current_user.is_super_user %}
-            <div id="username" class="pure-menu custom-restricted-width" style="position: absolute;top: 0;right: 10px;z-index: 1">
-                <span class="pure-menu-heading">{{current_user.username}}</span>
-                <ul id="user-op" class="pure-menu-list">
-                    <li class="pure-menu-item left-menu"><a href="/admin" class="pure-menu-link">Admin</a></li>
-                    <li class="pure-menu-item left-menu"><a href="/edit" class="pure-menu-link">Write</a></li>
-                    <li class="pure-menu-item left-menu"><a href="/logout" class="pure-menu-link">logout</a></li>
-                </ul>
-            </div>
-        {% else %}
-            <div id="login-user" class="pure-menu custom-restricted-width" style="position: absolute;top: 0;right: 10px;z-index: 1">
-                <a href="/login" class="pure-menu-heading">login</a>
-            </div>
-        {% endif %}
+    <div class="content_page mid_content" style="padding: 0 20px 0 20px;">
+{#        {% if current_user.is_super_user %}#}
+{#            <div id="username" style="position: absolute;top: 0;right: 10px;z-index: 1;text-align: right">#}
+{#                <ul >#}
+{#                    <li >#}
+{#                        <a href="#" id="menuLink1">{{current_user.username}}</a>#}
+{#                        <ul style="padding: 0">#}
+{#                            <li ><a href="/admin"  style="font-size: 14px">Admin</a></li>#}
+{#                            <li ><a href="/edit"  style="font-size: 14px">Write</a></li>#}
+{#                            <li ><a href="/logout"  style="font-size: 14px">logout</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        {% else %}#}
+{#            <div id="login-user"  style="position: absolute;top: 0;right: 10px;z-index: 1">#}
+{#                <a href="/login" >login</a>#}
+{#            </div>#}
+{#        {% endif %}#}
         <div class="mid_container" style="word-wrap:break-word">
             {% block content %}
             {% endblock %}
-            <div class="footer">
-            <hr>
-                Copyright © 2017 Yanqi Lou Design
-            </div>
+
+        </div>
+        <div class="footer">
+            <hr>Copyright © 2017 Yanqi Lou Design
         </div>
     </div>
 </div>
 {% block script %}
 
 {% endblock %}
+<script type="text/javascript" left="80%" bottom="20%" text="返回顶部" src="{{ url_for('static', filename='js/x-return-top.min.js')}}"></script>
 </body>
 </html>

@@ -3,19 +3,19 @@
 {% block content %}
 <div class="col-lg-3">
   <!-- Set the form -->                                                    
-  <form method="POST" action="{{ url_for('control.register')}}">
+  <form method="POST" action="{{ url_for('manage.register')}}">
     {{ form.hidden_tag() }}
     <div> 
       {{ form.username.label }}                                            
-      {{ form.username(class_="form-control") }}                           
+      {{ form.username(class_="form-manage") }}
     </div>
     <div class="form-group">                                               
       {{ form.password.label }}                                            
-      {{ form.password(class_='form-control') }}                           
+      {{ form.password(class_='form-manage') }}
     </div>
     <div class="form-group">
       {{ form.check_password.label }}
-      {{ form.check_password(class_='form-control') }}
+      {{ form.check_password(class_='form-manage') }}
     </div>
     <input class="btn btn-primary" type="submit" value="Register">         
     <div class="g-recaptcha" data-sitekey="<Your public key>"></div>

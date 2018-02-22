@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block head %}
-<title>tags</title>
+<title>Tags</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/tag.css') }}">
 {% endblock %}
 
 {% block content %}
+<div class="tag-header">标签列表</div>
+
 <div class="tags">
     {% for tag in tag_list %}
     <div class="tag">
@@ -17,18 +19,18 @@
     <div class="post">
         <header class="post-header">
             <div class="post-tag">
-                <i class="fa fa-tags" ></i>
+                <img src="{{ url_for('static', filename='icon/tags.png')}}" style="width: 15px;">
                 {% for tag in article.tags %}
                 <a href="/tags/{{tag.name}}" style="font-size: 10px">{{ tag.name }},</a>
                 {% endfor %}
             </div>
 
             <div class="post-title"><a href="/post/{{article.id}}">{{article.title}}</a></div>
-            <div class="post-time">{{article.create_time}}</div>
+            <div class="post-time">{{article.create_time | time_human}}</div>
         </header>
         <div class="post-description">
             <p>
-                {{article.abstract | safe}}
+                {{article.abstract | html_to_text}}...
             </p>
         </div>
     </div>
