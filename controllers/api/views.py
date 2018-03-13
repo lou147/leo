@@ -45,6 +45,7 @@ class PaginationObj(object):
     def get_page_nums(self):
         pass
 
+
 def permit():
     # if not current_user.is_authenticated:
     #     return 'need login'
@@ -199,6 +200,14 @@ def user_list_api():
         return json.dumps(data, cls=AlchemyEncoder)
 
 
+@api_blueprint.route('/add_user', methods=['POST'])
+def add_user_api():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        return json.dumps(data, cls=AlchemyEncoder)
+
+
 @api_blueprint.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -220,3 +229,9 @@ def login():
     token = jwt_encoding(user_info).decode()
     user_info['token'] = token
     return json.dumps({'status': 'ok', 'user_info': user_info, 'msg': 'success'})
+
+
+data1 = {
+    'username': 'louyanqi',
+    'password': 'louyanqi'
+}

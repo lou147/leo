@@ -15,7 +15,7 @@ blog_blueprint = Blueprint('blog', __name__, template_folder=os.path.join('/temp
 def home(page=1):
     if not page:
         page = 1
-    articles = Article.query.order_by(Article.id.desc()).paginate(int(page), 6)
+    articles = Article.query.filter(Article.is_active == 1).order_by(Article.is_top.desc(), Article.id.desc()).paginate(int(page), 6)
     return render_template('blog_template/home.html', article_list=articles)
 
 
